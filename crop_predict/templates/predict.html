@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+<title>{% block title %} Predict {% endblock %}</title>
+
+{% block content %} 
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3><i class="fa-solid fa-flask"></i> Crop Recommendation</h3>
+                    <div class="text-muted small d-none d-md-block">
+                        <i class="fa-solid fa-circle-info"></i>Enter numeric values (Humidity 0-100, pH 0-14)
+                    </div>
+                </div>
+                <hr>
+                <form method="post" id="predictForm">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        {% for c in feature_order %}
+                            <div class="col-md-4">
+                                <label class="form-label text-uppercase">{{c}}</label>
+                                {% if c == "humidity" %}
+                                <input type="number" min="0" step="any" max="100" name="{{c}}" required class="form-control" placeholder="e.g. 80"/>
+                                {% elif c == "ph" %}
+                                <input type="number" min="0" step="any"  max="14" name="{{c}}" required class="form-control" placeholder="e.g. 6.5"/>
+                                {% else %}
+                                <input type="number" min="0" step="any"  name="{{c}}" required class="form-control" placeholder="e.g. 90"/>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <button type="submit" class="btn btn-success"> 
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Predict
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="btnSample"> 
+                            <i class="fa-solid fa-bolt"></i> Use Sample
+                        </button>
+                        <button type="reset" class="btn btn-outline-danger"> 
+                            <i class="fa-solid fa-clock-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </form>
+
+                {% if result %}
+                <hr>
+                <div class="alert alert-success">
+                    Recommended Crop: <strong>{{result|title}}</strong>
+                </div>
+                {% endif %}
+
+                {% if last_data %}
+                <hr>
+                <div class="small text-muted">
+                    <i class="fa-regular fa-clock"></i> Input used: 
+                    {% for k,v in last_data.items %}
+                    <code>{{k}}={{v}}</code> {% if not forloop.last %} , {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+   <div class="col-lg-4">
+
+    <!-- Smart Farming Tips -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="mb-3">
+                <i class="fa-solid fa-seedling text-success"></i>
+                Smart Farming Tips
+            </h5>
+
+            <ul class="small text-muted mb-0">
+                <li>Use recent soil test values for better recommendations.</li>
+                <li>Maintain soil pH between 6.0 and 7.0 for most crops.</li>
+                <li>Monitor rainfall and humidity regularly.</li>
+                <li>Balanced N-P-K levels improve crop productivity.</li>
+                <li>Review previous predictions before making decisions.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- NPK Guide -->
+    <div class="card shadow-sm border-0 mt-3">
+        <div class="card-body">
+            <h6 class="mb-3">
+                <i class="fa-solid fa-flask text-primary"></i>
+                Understanding N-P-K
+            </h6>
+
+            <div class="small text-muted">
+                <p><strong>N (Nitrogen)</strong> – Supports leaf and stem growth.</p>
+                <p><strong>P (Phosphorus)</strong> – Helps root development and flowering.</p>
+                <p><strong>K (Potassium)</strong> – Improves crop quality and disease resistance.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Recommendation Info -->
+    <div class="card shadow-sm border-0 mt-3">
+        <div class="card-body">
+            <h6 class="mb-3">
+                <i class="fa-solid fa-robot text-warning"></i>
+                Recommendation Engine
+            </h6>
+
+            <p class="small text-muted mb-0">
+                Our Machine Learning model analyzes soil nutrients,
+                weather conditions, rainfall, humidity, and pH levels
+                to recommend the most suitable crop for cultivation.
+            </p>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<script>
+    (function(){
+        const form = document.getElementById('predictForm')
+        const inputs = form ? form.querySelectorAll('input[name]') : [];
+        const sample = {N:90,P:40,K:40,temperature:20,humidity:80,ph:7,rainfall:200}
+        document.getElementById('btnSample')?.addEventListener('click',() => {
+            inputs.forEach(inp=>{
+                const key = inp.name;
+                if(sample[key] !== undefined) inp.value = sample[key];
+
+            });
+            swal.fire({icon:'info', title:'sample filled'});
+        })
+    })();
+</script>
+{% endblock %}

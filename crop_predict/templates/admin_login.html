@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+<title>{% block title %} Admin Login {% endblock %}</title>
+
+{% block content %} 
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-lg border-0 overflow-hidden">
+            <div class="row">
+                <div class="col-md-6 position-relative d-none d-md-block" style="background: url('/static/images/img.png') center/cover no-repeat; min-height: 600px;">
+                    <div class="position-absolute start-0 top-0 w-100 h-100" 
+                    style="background: linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.5));">
+
+                    </div>
+                    <div class="position-absolute bottom-0 p-4 text-white">
+                    <h3 class="fw-bold mb-2">
+                        <i class="fa-solid fa-seedling me-2"></i>Smart Crop Recommendation System
+                    </h3>
+
+                    <p class="mb-3 text-white-50">
+                        Empowering farmers with AI-driven crop recommendations based on soil nutrients, weather conditions, and environmental factors.
+                    </p>
+
+                    <ul class="small list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fa-solid fa-circle-check text-success me-2"></i>
+                            Accurate AI-powered crop suggestions
+                        </li>
+                        <li class="mb-2">
+                            <i class="fa-solid fa-circle-check text-success me-2"></i>
+                            Real-time prediction and analysis
+                        </li>
+                        <li class="mb-2">
+                            <i class="fa-solid fa-circle-check text-success me-2"></i>
+                            Prediction history and CSV export
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check text-success me-2"></i>
+                            Secure, responsive and user-friendly platform
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                <div class="col-md-6 bg-white">
+                    <div class="p-5">
+                        <h3 class="mb-3"><i class="fa-solid fa-user-plus"></i> Admin Login </h3>
+                        <form method="post" id="loginForm">
+                            {% csrf_token %}
+                            <div class="row g-3">
+
+                                <div class="col-md-12">
+                                    <label class="form-label">UserName</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                        <input type="text" name="username" class="form-control" placeholder="Enter username"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Password <span class="text-muted small">(min 6 chars)</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                                        <input type="password" name="password" id="Pwd1" class="form-control" placeholder="******" />
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePwd" title="Show/Hide">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-success mt-3 w-100 " type="submit" id="signupBtn" > 
+                                <span>Login</span>
+                            </button>
+
+                            <div class="text-center mt-3">
+                                
+                                <a href="{% url 'home' %}" class="small text-decoration-none ms-1"><i class="fa-solid fa-house"></i> Back to Home</a>
+                            </div>
+
+                            <div class="mt-4 text-center border-top pt-4">
+    
+                            <div class="mb-3">
+                                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center"
+                                    style="width:70px; height:70px;">
+                                    <i class="fa-solid fa-user-shield fa-xl text-success"></i>
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold text-dark mb-2">
+                                Secure Administration Portal
+                            </h5>
+
+                            <p class="text-muted small mb-2">
+                                Welcome back, Administrator. Access the control panel to manage users, monitor platform activities, and maintain system integrity.
+                            </p>
+
+                            <div class="d-flex justify-content-center gap-3 mt-3 small text-muted">
+                                <span><i class="fa-solid fa-lock text-success me-1"></i> Secure Access</span>
+                                <span><i class="fa-solid fa-shield-halved text-primary me-1"></i> Protected Data</span>
+                                <span><i class="fa-solid fa-chart-line text-warning me-1"></i> Full Control</span>
+                            </div>
+
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const toggle = (btnId,inpId) => {
+        document.getElementById(btnId).addEventListener('click',function(){
+            const f = document.getElementById(inpId);
+            const icon = this.querySelector('i');
+
+            if(!f) return;
+
+            f.type = (f.type === 'password' ) ? 'text': 'password';
+            icon.classList.toggle('fa-eye'); icon.classList.toggle('fa-eye-slash');
+
+        });
+    };
+    toggle('togglePwd','Pwd1');
+</script>
+{% endblock %}

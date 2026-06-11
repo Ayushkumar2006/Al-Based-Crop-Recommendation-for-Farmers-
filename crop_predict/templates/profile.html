@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+<title>{% block title %} Profile {% endblock %}</title>
+
+{% block content %} 
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                  <h3 class="mb-3"><i class="fa-solid fa-user-pen"></i> Edit Profile</h3>
+
+
+                <form method="post" id="profileForm">
+                            {% csrf_token %}
+                            
+
+                                <div class="mb-2">
+                                    <label class="form-label">Full Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                        <input type="text" name="name" class="form-control" value="{{full_name}}" placeholder="e.g., user"/>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="mb-2">
+                                    <label class="form-label">Phone</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                                        <input type="number" name="phone" class="form-control" value="{{profile.phone}}" placeholder="e.g., **********"/>
+                                    </div>
+                                </div>
+
+
+                                 <div class="mb-2 text-muted">
+                                    <span>{{request.user.username}}</span>
+                                </div>
+
+                            
+
+                            <button class="btn btn-success mt-3 w-100 " type="submit" id="signupBtn" > 
+                                <i class="fa-solid fa-save"></i><span> Save Changes</span>
+                            </button>
+
+                            
+                        </form>
+
+               
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+    <!-- Header -->
+<div class="text-white text-center p-4"
+     style="background: linear-gradient(135deg, #111827, #1f2937);">
+
+    <div class="mb-3">
+        <div class="bg-white text-dark rounded-circle d-inline-flex align-items-center justify-content-center shadow"
+             style="width:90px;height:90px;">
+            <i class="fa-solid fa-user fs-1"></i>
+        </div>
+    </div>
+
+    <h4 class="fw-bold mb-1">
+        {{request.user.first_name}} {{request.user.last_name}}
+    </h4>
+
+    <p class="mb-0 text-light opacity-75">
+        Manage your personal information and account settings.
+    </p>
+
+</div>
+
+    <!-- Body -->
+    <div class="card-body p-4">
+
+        <div class="row text-center g-3">
+
+            <div class="col-4">
+                <div class="border rounded-3 p-3">
+                    <i class="fa-solid fa-user text-primary mb-2"></i>
+                    <h6 class="mb-0">Profile</h6>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="border rounded-3 p-3">
+                    <i class="fa-solid fa-envelope text-success mb-2"></i>
+                    <h6 class="mb-0">Email</h6>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="border rounded-3 p-3">
+                    <i class="fa-solid fa-gear text-warning mb-2"></i>
+                    <h6 class="mb-0">Settings</h6>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                Keep your profile information updated to ensure a better experience and seamless account management.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+    </div>
+
+</div>
+
+<script>
+    
+</script>
+{% endblock %}
