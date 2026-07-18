@@ -31,6 +31,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://al-based-crop-recommendation-for-farmers-production.up.railway.app",
+]
 
 # Application definition
 
